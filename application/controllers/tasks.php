@@ -12,7 +12,11 @@ class Tasks extends CI_Controller {
 
     // Show pending tasks
     public function index() {
-        $data['tasks'] = $this->Task_model->get_pending_tasks();
+        // Get filter & sort from GET parameters
+        $status = $this->input->get('status'); // pending, completed, or all
+        $sort = $this->input->get('sort'); // due_date, priority, title
+
+        $data['tasks'] = $this->Task_model->get_tasks($status, $sort);
         $data['counts'] = $this->Task_model->get_task_counts();
         $this->load->view('task_list', $data);
     }

@@ -18,6 +18,26 @@
         <span class="badge bg-warning text-dark">Pending: <?php echo $counts['pending']; ?></span>
     </div>
 
+    <form method="get" class="mb-3 row g-2">
+        <div class="col-auto">
+            <select name="status" class="form-select">
+                <option value="pending" <?php if($_GET['status']??''=='pending') echo 'selected'; ?>>Pending</option>
+                <option value="completed" <?php if($_GET['status']??''=='completed') echo 'selected'; ?>>Completed</option>
+                <option value="all" <?php if($_GET['status']??''=='all') echo 'selected'; ?>>All</option>
+            </select>
+        </div>
+        <div class="col-auto">
+            <select name="sort" class="form-select">
+                <option value="due_date" <?php if($_GET['sort']??''=='due_date') echo 'selected'; ?>>Due Date</option>
+                <option value="priority" <?php if($_GET['sort']??''=='priority') echo 'selected'; ?>>Priority</option>
+                <option value="title" <?php if($_GET['sort']??''=='title') echo 'selected'; ?>>Title</option>
+            </select>
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Apply</button>
+        </div>
+    </form>
+
     <table class="table table-striped table-hover">
         <thead class="table-dark">
             <tr>
@@ -31,21 +51,21 @@
         </thead>
         <tbody>
             <?php foreach ($tasks as $task): 
-                $due = strtotime($task['due_date']);
+                $due = strtotime($task->due_date);
                 $now = time();
                 $highlight = ($due >= $now && $due <= $now + 86400) ? 'table-danger' : '';
             ?>
             <tr class="<?php echo $highlight; ?>">
-                <td><?php echo $task['title']; ?></td>
-                <td><?php echo $task['description']; ?></td>
-                <td><?php echo $task['due_date']; ?></td>
-                <td><?php echo $task['priority']; ?></td>
+                <td><?php echo $task->title; ?></td>
+                <td><?php echo $task->description; ?></td>
+                <td><?php echo $task->due_date; ?></td>
+                <td><?php echo $task->priority; ?></td>
                 <td>
-                    <?php echo ucfirst($task['status']); ?>
+                    <?php echo ucfirst($task->status); ?>
                 </td>
                 <td>
-                    <?php if($task['status'] == 'pending'): ?>
-                        <a href="<?php echo base_url('index.php/tasks/complete/'.$task['id']); ?>" class="btn btn-success btn-sm">Mark Completed</a>
+                    <?php if($task->status == 'pending'): ?>
+                        <a href="<?php echo base_url('index.php/tasks/complete/'.$task->id); ?>" class="btn btn-success btn-sm">Mark Completed</a>
                     <?php else: ?>
                         <span class="text-success fw-bold">Completed</span>
                     <?php endif; ?>

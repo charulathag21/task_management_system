@@ -34,4 +34,26 @@ class Task_model extends CI_Model {
             'pending' => $pending
         ];
     }
+
+    public function get_tasks($status = 'pending', $sort = 'due_date') {
+        if ($status && $status != 'all') {
+            $this->db->where('status', $status);
+        }
+        
+        switch ($sort) {
+            case 'title':
+                $this->db->order_by('title', 'ASC');
+                break;
+            case 'priority':
+                $this->db->order_by('FIELD(priority, "High", "Medium", "Low")'); // High first
+                break;
+            default:
+                $this->db->order_by('due_date', 'ASC');
+                break;
+        }
+
+        $query = $this->db->get('tasks');
+        return $query->result();
+    }
+
 }
