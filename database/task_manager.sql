@@ -42,14 +42,12 @@ CREATE TABLE `tasks` (
 --
 
 INSERT INTO `tasks` (`id`, `title`, `description`, `due_date`, `priority`, `status`, `created_at`) VALUES
-(1, 'learn PHP', 'Learn php basics', '0000-00-00 00:00:00', 'Low', 'pending', '2025-08-15 07:39:22'),
-(2, 'learn cooking', 'to learn cooking basics', '0000-00-00 00:00:00', 'Low', 'pending', '2025-08-15 07:43:23'),
+(1, 'learn PHP', 'Learn php basics', '2025-08-15 12:49:00', 'Low', 'pending', '2025-08-15 08:55:17'),
+(2, 'learn cooking', 'to learn cooking basics', '2025-08-15 12:57:00', 'Low', 'pending', '2025-08-15 08:55:40'),
 (3, 'sample task', 'due date check', '2025-08-15 00:00:00', 'Medium', 'completed', '2025-08-15 08:02:37'),
 (4, 'new sample task', 'mark completed check', '2025-08-15 00:00:00', 'Low', 'pending', '2025-08-15 08:06:07'),
 (5, 'urgent task', 'check urgent highlight', '2025-08-15 00:00:00', 'High', 'pending', '2025-08-15 08:06:57'),
-(6, 'new date task', 'trying new date task', '2025-08-15 12:26:00', 'Low', 'completed', '2025-08-15 08:25:16'),
-(7, 'bbb', 'aaa', '2025-08-15 12:49:00', 'Low', 'completed', '2025-08-15 08:55:17'),
-(8, '11', '222', '2025-08-15 12:57:00', 'Medium', 'pending', '2025-08-15 08:55:40');
+(6, 'new date task', 'trying new date task', '2025-08-15 12:26:00', 'Low', 'completed', '2025-08-15 08:25:16');
 
 --
 -- Indexes for dumped tables
