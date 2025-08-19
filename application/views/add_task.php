@@ -21,13 +21,16 @@
             <form method="post" action="<?php echo base_url('index.php/tasks/add'); ?>">
 
                 <div class="mb-3">
-                    <label class="form-label">Title</label>
-                    <input type="text" name="title" class="form-control" required>
+                    <label class="form-label">
+                        <?php echo 'Title';
+                         echo '<span style="color: red;">*</span>:' ?>
+                    </label>
+                    <input type="text" name="title" class="form-control" placeholder="Title..." required>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Description</label>
-                    <textarea name="description" class="form-control"></textarea>
+                    <label class="form-label">Description: </label>
+                    <textarea name="description" class="form-control" placeholder="Description..."></textarea>
                 </div>
 
                 <div class="mb-3">

@@ -12,18 +12,30 @@ class Tasks extends CI_Controller {
 
     // Show pending tasks
     public function index() {
-        // Get filter & sort from GET parameters
+
+        // Get filter & sort from GET parameters,
+        // On page reload load pending status and Title sort
         $status = $this->input->get('status'); // pending, completed, or all
         $sort = $this->input->get('sort'); // due_date, priority, title
-
-        $data['tasks'] = $this->Task_model->get_tasks($status, $sort);
-        $data['counts'] = $this->Task_model->get_task_counts();
-        $this->load->view('task_list', $data);
+        if (!$status || !$sort) {
+            // Build the URL with defaults, preserving any existing params if needed
+            $url = current_url() . '?';
+            
+            $url .= 'status=' . ($status ?? 'pending');
+            $url .= '&sort=' . ($sort ?? 'title');
+            
+            header('Location: ' . $url);
+            exit;
+        }
+        
+        $data['tasks'] = $this->Task_model->get_tasks($status, $sort);  //returns an array of task objects
+        $data['counts'] = $this->Task_model->get_task_counts();     //returns count of status - 'all', 'pending', 'completed'
+        $this->load->view('task_list', $data);      
     }
     
     public function add() {
         if ($this->input->post()) {
-            // Get POST data
+            // Get POST data from input add_task.php view
             $title = $this->input->post('title');
             $description = $this->input->post('description');
             $due_date_input = $this->input->post('due_date'); // e.g., 2025-08-15T12:49
@@ -55,8 +67,6 @@ class Tasks extends CI_Controller {
             $this->load->view('add_task');
         }
     }
-
-
 
     // Mark task as completed
     public function complete($id) {

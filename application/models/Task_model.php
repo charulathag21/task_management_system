@@ -21,7 +21,7 @@ class Task_model extends CI_Model {
 
     // Get counts
     public function get_task_counts() {
-        $total = $this->db->count_all('tasks');
+        $total = $this->db->count_all('tasks');     //called Active Record pattern or Query Builder class
 
         $this->db->where('status', 'completed');
         $completed = $this->db->count_all_results('tasks');
@@ -42,13 +42,13 @@ class Task_model extends CI_Model {
         
         switch ($sort) {
             case 'title':
-                $this->db->order_by('title', 'ASC');
+                $this->db->order_by('title', 'ASC');    //Ascending
                 break;
             case 'priority':
                 $this->db->order_by('FIELD(priority, "High", "Medium", "Low")'); // High first
                 break;
             default:
-                $this->db->order_by('due_date', 'ASC');
+                $this->db->order_by('due_date', 'ASC');     //Ascending
                 break;
         }
 

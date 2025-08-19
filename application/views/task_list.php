@@ -17,20 +17,21 @@
         <span class="badge bg-success">Completed: <?php echo $counts['completed']; ?></span>
         <span class="badge bg-warning text-dark">Pending: <?php echo $counts['pending']; ?></span>
     </div>
-
+    <?php $status = isset($_GET['status']) ? $_GET['status'] : 'pending';
+        $sort = isset($_GET['sort']) ? $_GET['sort'] : 'title';?>
     <form method="get" class="mb-3 row g-2">
         <div class="col-auto">
             <select name="status" class="form-select">
-                <option value="pending" <?php if($_GET['status']??''=='pending') echo 'selected'; ?>>Pending</option>
-                <option value="completed" <?php if($_GET['status']??''=='completed') echo 'selected'; ?>>Completed</option>
-                <option value="all" <?php if($_GET['status']??''=='all') echo 'selected'; ?>>All</option>
+                <option value="pending" <?= $status === 'pending' ? 'selected' : '' ?>>Pending</option>
+                <option value="completed" <?= $status === 'completed' ? 'selected' : '' ?>>Completed</option>
+                <option value="all" <?= $status === 'all' ? 'selected' : '' ?>>All</option>
             </select>
         </div>
         <div class="col-auto">
             <select name="sort" class="form-select">
-                <option value="due_date" <?php if($_GET['sort']??''=='due_date') echo 'selected'; ?>>Due Date</option>
-                <option value="priority" <?php if($_GET['sort']??''=='priority') echo 'selected'; ?>>Priority</option>
-                <option value="title" <?php if($_GET['sort']??''=='title') echo 'selected'; ?>>Title</option>
+                <option value="due_date" <?= $sort === 'due_date' ? 'selected' : '' ?>>Due Date</option>
+                <option value="priority" <?= $sort === 'priority' ? 'selected' : '' ?>>Priority</option>
+                <option value="title" <?= $sort === 'title' ? 'selected' : '' ?>>Title</option>
             </select>
         </div>
         <div class="col-auto">
@@ -51,9 +52,12 @@
         </thead>
         <tbody>
             <?php foreach ($tasks as $task): 
-                $due = strtotime($task->due_date);
+                date_default_timezone_set('Asia/Dubai');  // Dubai timezone
+                $due = strtotime($task->due_date);          
                 $now = time();
-                $highlight = ($due >= $now && $due <= $now + 86400) ? 'table-danger' : '';
+                //if due date is - 
+                // 1. greater than time now 2. lesser than 24 hours 3. status is pending
+                $highlight = ($due >= $now && $due <= $now + 86400 && $task->status == 'pending') ? 'table-danger' : ''; 
             ?>
             <tr class="<?php echo $highlight; ?>">
                 <td><?php echo $task->title; ?></td>
